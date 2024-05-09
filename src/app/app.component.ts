@@ -1,17 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit{
-  constructor(
-    private apiService: ApiService
-  ) {}
+export class AppComponent {
+  userInfo: any;
+  userRepo: any;
 
-  ngOnInit() {
-    this.apiService.getUser('johnpapa').subscribe(console.log);
+  constructor(private apiService: ApiService) { }
+
+  getUserData(username: string) {
+    this.apiService.getUser(username).subscribe(
+      (userData: any) => {
+        this.userInfo = userData;
+        console.log(userData)
+
+        if (this.userInfo.repos_url) {
+          this.apiService.getRepositories(this.userInfo.repos_url).subscribe(
+            (repos: any) => {
+              this.userRepo = repos;
+            },
+            (error) => {
+              console.log('Error fetching repositories', error);
+            }
+          );
+        }
+      },
+      (error) => {
+        console.error('Error fetching user data:', error);
+      }
+    );
   }
 }
