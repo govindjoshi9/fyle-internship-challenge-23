@@ -22,6 +22,7 @@ export class AppComponent {
           this.apiService.getRepositories(this.userInfo.repos_url).subscribe(
             (repos: any) => {
               this.userRepo = repos;
+              console.log(repos)
             },
             (error) => {
               console.log('Error fetching repositories', error);
