@@ -15,8 +15,9 @@ export class ApiService {
     );
   }
 
+  //axios
   async getRepositories(url: any): Promise<any> {
-    return await axios.get(url); // using axios inorder to access the link response header 
+    return await axios.get(url); 
   }
 
 }

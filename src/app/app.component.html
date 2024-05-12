@@ -1,7 +1,5 @@
 <div>
 
-
-  <!-- Starting Point to get GitHub username -->
   <div *ngIf="!userInfo" class="flex justify-center items-center h-screen">
     <div class="p-6 max-w-md bg-white shadow-lg rounded-lg w-100">
       <h2 class="text-2xl font-semibold mb-4">Let's Get Started! </h2>
@@ -20,9 +18,14 @@
             class="w-full px-4 py-2  text-gray-800 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" />
         </div>
 
-        <button type="submit"
+          <button type="submit" [disabled]="buttonLoader"
           class="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none">
-          Search
+
+          <ng-container *ngIf="buttonLoader; else searchButton">
+            <app-button-loader></app-button-loader>
+          </ng-container>
+          <ng-template #searchButton>Search</ng-template>
+
         </button>
 
       </form>
@@ -30,8 +33,6 @@
   </div>
 
 
-
-  <!-- Alternate Header to get updated username or Repositories per page -->
   <form *ngIf="userInfo" class="flex flex-col md:flex-row md:justify-center bg-white shadow-lg p-6 sticky-form"
     (ngSubmit)="getUserData(githubUsername)">
     <input type="text" id="username" name="username" [(ngModel)]="githubUsername" required
@@ -48,20 +49,15 @@
 
 
 
-  <!-- User information display -->
   <div *ngIf="userInfo && !loader1" class="p-6 max-w-screen-lg mx-auto bg-white shadow-lg rounded-lg mb-4 mt-4">
 
-    <!-- Basic user Info -->
     <app-user-info [userInfo]="userInfo"></app-user-info>
-    <!-- Paginated Repository display -->
     <app-repo-section [loader2]="loader2" [userRepo]="userRepo"></app-repo-section>
 
-    <!-- loader to indicate page change -->
     <div *ngIf="loader2" class="mt-20 mb-20">
       <img style="margin: auto;" src="./../assets/loader2.gif">
     </div>
 
-    <!-- Pagination bar -->
     <div *ngIf="userRepo" class="flex justify-between items-center mt-4">
       <button class="bg-blue-500 text-white px-4 py-2 rounded-lg focus:outline-none hover:bg-blue-600
          {{ currentPage === 1 ? 'bg-gray-300 hover:bg-gray-300 cursor-not-allowed' : '' }}"
@@ -88,8 +84,6 @@
   </div>
 
 
-
-  <!-- Loader to indicate fetching of user information -->
   <div *ngIf="loader1" class="mt-20">
     <img style="margin: auto;" src="./../assets/loader1.gif">
   </div>

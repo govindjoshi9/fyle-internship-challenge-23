@@ -20,6 +20,7 @@ export class AppComponent {
 
   loader1: boolean = false;
   loader2: boolean = false;
+  buttonLoader: boolean = false;
 
   constructor(private apiService: ApiService) {
     this.updateVisiblePageCount();
@@ -33,6 +34,7 @@ export class AppComponent {
   getUserData(username: string) {
 
     this.loader1 = true;
+    this.buttonLoader = true;
 
     this.apiService.getUser(username).subscribe(
       (userData: any) => {
@@ -45,10 +47,12 @@ export class AppComponent {
           this.getRepos(1);
         }
         this.loader1 = false;
+        this.buttonLoader = false;
       },
       (error) => {
         console.error('Error fetching user data:', error);
         this.loader1 = false;
+        this.buttonLoader = false;
       }
     );
 
