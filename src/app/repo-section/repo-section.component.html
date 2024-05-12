@@ -16,7 +16,7 @@
           ? repo?.description?.slice(0, 100) + "..."
           : repo?.description
       }}
-      <div class="flex flex-row flex-wrap mt-4">
+      <div class="flex flex-row flex-wrap mt-4 non-selectable">
         <div class="p-2" *ngFor="let topic of repo.topics.slice(0, 4)">
           <span class="topic"> {{ topic }} </span>
         </div>
